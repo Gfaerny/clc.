@@ -1,0 +1,15 @@
+#!/bin/bash
+
+USER_HOME=$(getent passwd $(logname) | cut -d: -f6)
+
+if [ ! -d "$USER_HOME/.clc" ]; then
+    mkdir -p "$USER_HOME/.clc"
+    chmod 755 "$USER_HOME/.clc"
+fi
+
+if [ ! -f "$USER_HOME/.clc/lt" ]; then
+    touch "$USER_HOME/.clc/lt"
+    chmod 644 "$USER_HOME/.clc/lt"
+fi
+
+echo "Clc installed! Config folder created at $USER_HOME/.clc/"
