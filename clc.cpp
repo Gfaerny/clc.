@@ -77,7 +77,7 @@ void onExit() {
     sf::Sprite closeButton;
     closeButton.setTexture(closeTexture);
     closeButton.setPosition(470, 10);
-    float scaleFactor = 0.2f;
+    float scaleFactor = 0.15f;
     closeButton.setScale(scaleFactor, scaleFactor);
 
     sf::Text clcText;
@@ -90,7 +90,7 @@ void onExit() {
     timerText.setFont(font);
     timerText.setCharacterSize(50);
     timerText.setFillColor(sf::Color::White);
-    timerText.setPosition(115, 115);
+    timerText.setPosition(100, 115);
 
     bool dragging = false;
     sf::Vector2i dragOffset;
