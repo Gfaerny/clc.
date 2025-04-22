@@ -44,9 +44,11 @@
 }
 
 
-void onExit() {
+void onExit() 
+{
     auto now = high_resolution_clock::now();
-    if (running) {
+    if (running) 
+    {
         savedTime += duration_cast<milliseconds>(now - start).count();
     }
     saveTime(savedTime);
@@ -54,23 +56,23 @@ void onExit() {
 
     int main()
 {
-
     atexit(onExit);
 
     savedTime = loadTime();
     start = high_resolution_clock::now();
-
+    
     sf::RenderWindow window(sf::VideoMode(500, 300), "clc.", sf::Style::None);
     sf::Font font;
-    if (!font.loadFromFile("/usr/share/clc/arial.ttf")) {
-        cerr << "ERROR: CAN'T LOAD FONT" << endl;
+    if (!font.loadFromFile("/usr/share/clc/arial.ttf")) 
+    {
+        cerr << "ERROR: CAN'T LOAD arial.ttf FONT" << endl;
         return -1;
     }
 
     sf::Texture closeTexture;
     if (!closeTexture.loadFromFile("/usr/share/clc/closb.png"))
     {
-        cerr << "ERROR : CANT'T LOAD -> clos.png!" << endl;
+        cerr << "ERROR : CANT'T LOAD IMG clos.png!" << endl;
         return -1;
     }
 
@@ -95,11 +97,12 @@ void onExit() {
     bool dragging = false;
     sf::Vector2i dragOffset;
 
-    while (window.isOpen()) {
+    while (window.isOpen()) 
+    {
         sf::Event event;
         while (window.pollEvent(event))
         {
-        if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
             {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                 if (closeButton.getGlobalBounds().contains(mousePos.x, mousePos.y))
@@ -108,27 +111,34 @@ void onExit() {
                 }
             }
 
-            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) 
+            {
                 dragging = true;
                 dragOffset = window.getPosition() - sf::Mouse::getPosition();
             }
 
-            if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
+            if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) 
+            {
                 dragging = false;
             }
 
-            if (event.type == sf::Event::MouseMoved && dragging) {
+            if (event.type == sf::Event::MouseMoved && dragging) 
+            {
                 window.setPosition(sf::Mouse::getPosition() + dragOffset);
             }
 
             if (event.type == sf::Event::Closed)
                 window.close();
 
-            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space) {
-                if (running) {
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space) 
+            {
+                if (running) 
+                {
                     auto now = high_resolution_clock::now();
                     savedTime += duration_cast<milliseconds>(now - start).count();
-                } else {
+                }
+                else 
+                {
                     start = high_resolution_clock::now();
                 }
                 running = !running;
@@ -144,7 +154,8 @@ void onExit() {
         }
 
         long long currentTime = savedTime;
-        if (running) {
+        if (running) 
+        {
             auto now = high_resolution_clock::now();
             currentTime += duration_cast<milliseconds>(now - start).count();
         }
