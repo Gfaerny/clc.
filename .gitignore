@@ -1,2 +1,4 @@
 clc
 *.deb
+src/clc
+build/*

@@ -1,37 +1,39 @@
-    #include <SFML/Graphics.hpp>
-    #include <iostream>
-    #include <chrono>
-    #include <thread>
-    #include <fstream>
-    #include <filesystem>
+#include <SFML/Graphics.hpp>
+#include <iostream>
+#include <chrono>
+#include <fstream>
+#include <filesystem>
 
-    using namespace std;
-    using namespace chrono;
-    namespace fs = std::filesystem;
+using namespace std;
+using namespace chrono;
+namespace fs = std::filesystem;
 
-    auto start = high_resolution_clock::now();
-    long long savedTime = 0;
-    bool running = false;
-    fs::path homeDir = getenv("HOME");
-    fs::path filePath = homeDir / ".clc" / "lt";
+auto start = high_resolution_clock::now();
+long long savedTime = 0;
+bool running = false;
+fs::path homeDir = getenv("HOME");
+fs::path filePath = homeDir / ".clc" / "lt";
 
 
-    void saveTime(long long total_ms)
+void saveTime(long long total_ms)
 {
     if (!fs::exists(filePath.parent_path()))
     {
         fs::create_directory(filePath.parent_path());
     }
     ofstream outFile(filePath);
-    if (outFile.is_open()) {
+    if (outFile.is_open())
+    {
         outFile << total_ms;
         outFile.close();
-    } else {
-        cerr << "EXIT ERROR: CAN'T SAVE TIME" << endl;
+    }
+    else
+    {
+        cerr << "clc error : can't store last data time" << endl;
     }
 }
 
-    long long loadTime()
+long long loadTime()
 {
     ifstream inFile(filePath);
     long long previousTime = 0;
@@ -54,7 +56,7 @@ void onExit()
     saveTime(savedTime);
 }
 
-    int main()
+int main()
 {
     atexit(onExit);
 
@@ -65,14 +67,14 @@ void onExit()
     sf::Font font;
     if (!font.loadFromFile("/usr/share/clc/arial.ttf")) 
     {
-        cerr << "ERROR: CAN'T LOAD arial.ttf FONT" << endl;
+        cerr << "clc error : can't load arial.ttf font" << endl;
         return -1;
     }
 
     sf::Texture closeTexture;
     if (!closeTexture.loadFromFile("/usr/share/clc/closb.png"))
     {
-        cerr << "ERROR : CANT'T LOAD IMG clos.png!" << endl;
+        cerr << "clc error : can't load close.png" << endl;
         return -1;
     }
 
@@ -165,7 +167,7 @@ void onExit()
         long long minutes = currentTime / (1000 * 60);
         currentTime %= (1000 * 60);
         long long seconds = currentTime / 1000;
-        long long milliseconds = currentTime % 1000;
+        long long milliseconds = currentTime % 100;
 
         timerText.setString(to_string(hours) + " : " + to_string(minutes) + " : " + to_string(seconds) + " : " + to_string(milliseconds));
 
