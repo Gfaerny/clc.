@@ -3,6 +3,8 @@
 #include <chrono>
 #include <fstream>
 #include <filesystem>
+#include <string>
+#include <sys/types.h>
 
 using namespace std;
 using namespace chrono;
@@ -24,11 +26,13 @@ void saveTime(long long total_ms)
     ofstream outFile(filePath);
     if (outFile.is_open())
     {
+        ////lib32std::string tms_string = to_string(total_ms);
         outFile << total_ms;
         outFile.close();
     }
     else
     {
+        std::cerr << total_ms << filePath << "\n";
         cerr << "clc error : can't store last data time" << endl;
     }
 }
@@ -53,6 +57,7 @@ void onExit()
     {
         savedTime += duration_cast<milliseconds>(now - start).count();
     }
+    std::cerr << savedTime << "\n";
     saveTime(savedTime);
 }
 
@@ -94,7 +99,7 @@ int main()
     timerText.setFont(font);
     timerText.setCharacterSize(50);
     timerText.setFillColor(sf::Color::White);
-    timerText.setPosition(100, 115);
+    timerText.setPosition(115, 115);
 
     bool dragging = false;
     sf::Vector2i dragOffset;
@@ -167,10 +172,16 @@ int main()
         long long minutes = currentTime / (1000 * 60);
         currentTime %= (1000 * 60);
         long long seconds = currentTime / 1000;
-        long long milliseconds = currentTime % 100;
-
-        timerText.setString(to_string(hours) + " : " + to_string(minutes) + " : " + to_string(seconds) + " : " + to_string(milliseconds));
-
+        long long milliseconds = currentTime % 1000;    
+        u_int8_t deciseconds = milliseconds / 10;
+        if(currentTime == 0)
+        {
+            timerText.setString("0 : 0 : 0 : 00");
+        }
+        else
+        {
+            timerText.setString(to_string(hours) + " : " + to_string(minutes) + " : " + to_string(seconds) + " : " +to_string(deciseconds));
+        }
         clcText.setString("Clc.");
         window.clear();
         window.draw(clcText);

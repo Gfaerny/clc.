@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=clc
-Comment=A super simple timer tool built with SFML
-Exec=/usr/bin/clc
-Icon=clc
-Terminal=false
-Type=Application
-Categories=Utility;

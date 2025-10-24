@@ -1,8 +1,0 @@
-Package: clc
-Version: 0.1
-Section: utils
-Priority: optional
-Architecture: amd64
-Depends: libsfml-dev
-Maintainer: gfaerny <gfaerny@gmail.com>
-Description: Super simple timer

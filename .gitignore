@@ -2,3 +2,4 @@ clc
 *.deb
 src/clc
 build/*
+*.o
