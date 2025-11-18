@@ -3,3 +3,4 @@ clc
 src/clc
 build/*
 *.o
+*.json
