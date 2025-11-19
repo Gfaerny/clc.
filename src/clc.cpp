@@ -8,8 +8,8 @@
 #define RGFW_IMPLEMENTATION
 #define RGFW_OPENGL
 
-#include "../include/RGFW.h"
-#include "../include/glyph.h"
+#include "../include/RGFW/RGFW.h"
+#include "../include/glyph/glyph.h"
 
 using namespace std;
 using namespace chrono;
