@@ -4,3 +4,5 @@ src/clc
 build/*
 *.o
 *.json
+font/arial/*
+font/

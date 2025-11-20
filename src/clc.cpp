@@ -1,8 +1,11 @@
+#include <ctime>
 #include <iostream>
 #include <chrono>
 #include <fstream>
 #include <filesystem>
 
+
+#include <string>
 #include <sys/types.h>
 
 #define RGFW_IMPLEMENTATION
@@ -82,7 +85,7 @@ int main()
     while(RGFW_window_shouldClose(RGFW_window_obj) == false)
     {
     
-        auto time = high_resolution_clock::now();
+        auto time_point_t1 = high_resolution_clock::now();
         RGFW_event RGFW_event_obj;
 
         while(RGFW_window_checkEvent(RGFW_window_obj, &RGFW_event_obj))
@@ -95,19 +98,22 @@ int main()
             }
         }
 
-    /// graphic interface
-    
+    /// graphic interface    
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-
+    
         // Render text
-        glyph_renderer_draw_text(&renderer, "clc test",
+        // 
+        auto time_point_t2 = high_resolution_clock::now();
+
+        duration<double> time_span = duration_cast<duration<double>>(time_point_t2 - time_point_t1);
+        std::string t_str = std::to_string(time_span.count());
+        glyph_renderer_draw_text(&renderer, t_str.c_str(),
                                 50.0f, 300.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_NONE);
     
         RGFW_window_swapBuffers_OpenGL(RGFW_window_obj);
         glFlush();        
 
-    }
-        
+    }        
     return 0;
 }
