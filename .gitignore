@@ -6,3 +6,5 @@ build/*
 *.json
 font/arial/*
 font/
+test/*
+test/
