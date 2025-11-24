@@ -8,3 +8,7 @@ font/arial/*
 font/
 test/*
 test/
+
+####
+# i use some true type file for test clc bin with it that's all
+*.ttf
