@@ -1,5 +1,3 @@
-#include <X11/X.h>
-#include <X11/Xfuncproto.h>
 #include <cstdint>
 #include <cstdlib>
 #include <ctime>
@@ -8,11 +6,11 @@
 #include <fstream>
 #include <filesystem>
 #include <cmath>
-
-#include <string>
 #include <sys/types.h>
+#include <string>
 
 #define RGFW_IMPLEMENTATION
+#define RGFW_DEBUG
 #define RGFW_OPENGL
 
 #include "../include/RGFW/RGFW.h"
