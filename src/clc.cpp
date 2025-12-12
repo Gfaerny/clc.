@@ -8,26 +8,29 @@
 #include <cmath>
 #include <sys/types.h>
 #include <string>
+#include <print>
 
-#define RGFW_IMPLEMENTATION
+#define GLYPH_MINIMAL
 #define RGFW_DEBUG
+#define RGFW_IMPLEMENTATION
 #define RGFW_OPENGL
-
+extern "C" 
+{
 #include "../include/RGFW/RGFW.h"
 #include "../include/glyph/glyph.h"
-
+};
 #include <GL/gl.h>
 
 using namespace std;
 using namespace chrono;
 namespace fs = std::filesystem;
 
-double savedTime = 0 , output_time = 0;
-fs::path homeDir = getenv("HOME");
-fs::path filePath = homeDir / ".clc" / "lt";
+double saved_time = 0 , output_time = 0;
+fs::path home_dir = getenv("HOME");
+fs::path saved_time_file_path = home_dir / ".clc" / "lt";
 
 
-static  std::string t_str_fucn (double &time)
+static std::string t_str_fucn (double &time)
 {
     std::string function_result = "";    
 
@@ -49,7 +52,7 @@ static  std::string t_str_fucn (double &time)
         function_result += ".";   
     }
     
-        double sec = std::fmod(time , 60);
+        double sec = std::fmod(time , 60);        
         function_result +=std::to_string(sec);
 
         function_result.erase(6);    
@@ -57,13 +60,13 @@ static  std::string t_str_fucn (double &time)
 }
 
 
-void saveTime(long long total_ms)
+void save_time(double total_ms)
 {
-    if (!fs::exists(filePath.parent_path()))
+    if (!fs::exists(saved_time_file_path.parent_path()))
     {
-        fs::create_directory(filePath.parent_path());
+        fs::create_directory(saved_time_file_path.parent_path());
     }
-    ofstream outFile(filePath);
+    ofstream outFile(saved_time_file_path);
     if (outFile.is_open())
     {
         outFile << total_ms;
@@ -71,56 +74,49 @@ void saveTime(long long total_ms)
     }
     else
     {
-        cerr << total_ms << filePath << "\n";
-        cerr << "clc error : can't store last data time" << endl;
+        cerr << total_ms << saved_time_file_path<< "\n";
+        cerr << "clc. massage [error] : can't store last data time" << endl;
     }
 }
 
-double loadTime()
+double load_time()
 {
-    ifstream inFile(filePath);
-    double previousTime = 0;
+    ifstream inFile("/home/gfaerny/.clc/lt");
+    double previous_time = 0;
     if (inFile.is_open())
     {
-        inFile >> previousTime;
+        inFile >> previous_time;
         inFile.close();
+        return previous_time;
+        std::printf("clc. massage [alert] : last saved time loaded succesfully%f" ,previous_time);
     }
     else
     {
-        std::printf("failed to open ~/.clc/lt file.\nclc could't load your last time_point");
+        std::printf("clc. massage [error] : failed to open ~/.clc/lt file.\nclc could't load your last time_point");
         return 0;
     }
-    return previousTime;
 }
 
 
-int main(void)
-{
-
+int main()
+{   
     double additional_time , last_time = 0;
-
     bool order_time_stop = true;
 
-    if(!(loadTime() == 0))
-    {
-        savedTime = loadTime();
-    }
-
-        
+    double last_time_time = load_time();
+    std::printf("loaded time = %f",saved_time);
+                       
     uint8_t min = 0 , hour = 0 , sec = 0;  
+        
+    RGFW_window* RGFW_window_obj = RGFW_createWindow("hi", 0, 0, 500, 300, RGFW_windowOpenGL | RGFW_windowNoBorder | RGFW_windowNoResize);
+
+    RGFW_window_makeCurrentContext_OpenGL(RGFW_window_obj);
     
-    RGFW_glHints* hints = RGFW_getGlobalHints_OpenGL();
-    hints->major = 3;
-    hints->minor = 3;
-    RGFW_setGlobalHints_OpenGL(hints);
 
-   
-    RGFW_window* RGFW_window_obj = RGFW_createWindow("clc.", 0, 0, 500, 300, RGFW_windowCenter || RGFW_windowNoResize || RGFW_windowNoBorder || RGFW_windowOpenGL);
-    RGFW_window_createContext_OpenGL(RGFW_window_obj, hints);
-
+    glyph_gl_set_opengl_version(3, 3);
     RGFW_window_show(RGFW_window_obj);
-
-    glyph_renderer_t renderer = glyph_renderer_create("font.ttf", 135.0f,NULL, GLYPH_UTF8, NULL, 0);
+    RGFW_window_setExitKey(RGFW_window_obj,RGFW_escape);
+    glyph_renderer_t renderer = glyph_renderer_create("font.ttf", 135.0f,NULL, GLYPH_UTF8,NULL, 0);
     glyph_renderer_set_projection(&renderer, 800, 600);
     
     glEnable(GL_BLEND);
@@ -139,18 +135,17 @@ int main(void)
         {
             if(RGFW_event_obj.type == RGFW_keyPressed && RGFW_event_obj.button.value == RGFW_space)    
             {
-                /// stop and start clock func's
+                /// stop and start timer proc
                 if(order_time_stop == true)
                 {
                     order_time_stop = false;
                     start_time = high_resolution_clock::now();
-                    savedTime = output_time;
+                    saved_time = output_time;
                 }
                 else
                 {
-                    ///savedTime += duration<double>(now - start).count();
                     order_time_stop = true;
-                    savedTime = output_time;
+                    saved_time = output_time;
                 }
             }
         }
@@ -161,23 +156,20 @@ int main(void)
 
         if(order_time_stop)
         {
-            savedTime = output_time;
-
+            saved_time = output_time ;
+            
             t_str = t_str_fucn(output_time);
- 
-            std::cout << output_time << '\n';
             glyph_renderer_draw_text(&renderer, t_str.c_str(),230.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_NONE);
             
             last_time_before_stop = high_resolution_clock::now();
         }
-
         else
         {    
             auto now_time = high_resolution_clock::now();
             output_time = duration<double>(now_time - start_time).count();
-            output_time+=savedTime;
+            output_time+=saved_time ;
             
-            std::cout << output_time << '\n';
+        
             t_str = t_str_fucn(output_time);
        
             glyph_renderer_draw_text(&renderer, t_str.c_str(),230.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_NONE);
