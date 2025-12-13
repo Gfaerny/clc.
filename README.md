@@ -2,4 +2,4 @@
 # clc.
 Super simple timer for debian.
 
-please feel free to report any bug and suggestion to clc. sourcehut mail list [here is the link](https://github.com)
+you can find how to report bug for clc [here](https://github.com/Gfaerny/clc./blob/main/bug_report.md)
