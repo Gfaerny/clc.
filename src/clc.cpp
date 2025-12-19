@@ -156,8 +156,8 @@ int main()
                     saved_time = output_time;
                 }
             }
-//          Ctrl+R
-            else if (RGFW_event_obj.type == RGFW_keyPressed &&  RGFW_event_obj.button.value == RGFW_r)
+//          r
+            if (RGFW_event_obj.type == RGFW_keyPressed &&  RGFW_event_obj.button.value == RGFW_r)
             {
                 saved_time = 0;
                 std::printf("now i press Ctrl left and R");

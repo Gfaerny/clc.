@@ -17,8 +17,18 @@ you can find how to report bug for clc [here](https://github.com/Gfaerny/clc./bl
       -glyph for rendering text with OpenGL
 - then run this to build
 ...
-make&&./clc
+make
+#and the use clc
+./clc
 ...
+
+# how to use
+- keybind 
+  - space : start/stop timer
+  - r : restart timer
 
 # at end
 thanks for you attention.this project is super experimental so please feel free to report any typo , bug ... or any problem  that you see
+
+
+
