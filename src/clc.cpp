@@ -60,8 +60,9 @@ static std::string t_str_fucn (double &time)
 }
 
 
-void save_time(double total_ms)
+void save_time()
 {
+    double total_ms = output_time;
     if (!fs::exists(saved_time_file_path.parent_path()))
     {
         fs::create_directory(saved_time_file_path.parent_path());
@@ -71,48 +72,53 @@ void save_time(double total_ms)
     {
         outFile << total_ms;
         outFile.close();
+        printf("clc. massage [alert] : last time got saved");
     }
     else
     {
         cerr << total_ms << saved_time_file_path<< "\n";
         cerr << "clc. massage [error] : can't store last data time" << endl;
     }
+
+    return ;
 }
+
 
 double load_time()
 {
     ifstream inFile("/home/gfaerny/.clc/lt");
     double previous_time = 0;
-    if (inFile.is_open())
+    if(inFile.is_open())
     {
         inFile >> previous_time;
         inFile.close();
         return previous_time;
-        std::printf("clc. massage [alert] : last saved time loaded succesfully%f" ,previous_time);
+        printf("clc. massage [alert] : last saved time loaded succesfully%f" ,previous_time);
     }
     else
     {
-        std::printf("clc. massage [error] : failed to open ~/.clc/lt file.\nclc could't load your last time_point");
+        printf("clc. massage [error] : failed to open ~/.clc/lt file.\nclc could't load your last time_point");
         return 0;
     }
 }
 
 
 int main()
-{   
+{
+    std::atexit(save_time);
+    
     double additional_time , last_time = 0;
     bool order_time_stop = true;
 
     double last_time_time = load_time();
     std::printf("loaded time = %f",saved_time);
                        
-    uint8_t min = 0 , hour = 0 , sec = 0;  
-        
-    RGFW_window* RGFW_window_obj = RGFW_createWindow("hi", 0, 0, 500, 300, RGFW_windowOpenGL | RGFW_windowNoBorder | RGFW_windowNoResize);
+    uint8_t min = 0 , hour = 0 , sec = 0;
+
+    RGFW_window* RGFW_window_obj = RGFW_createWindow("clc.", 0, 0, 500, 300, RGFW_windowOpenGL | RGFW_windowNoBorder | RGFW_windowNoResize);
 
     RGFW_window_makeCurrentContext_OpenGL(RGFW_window_obj);
     
-
     glyph_gl_set_opengl_version(3, 3);
     RGFW_window_show(RGFW_window_obj);
     RGFW_window_setExitKey(RGFW_window_obj,RGFW_escape);
@@ -133,6 +139,8 @@ int main()
 
         while(RGFW_window_checkEvent(RGFW_window_obj, &RGFW_event_obj))
         {
+
+//          space
             if(RGFW_event_obj.type == RGFW_keyPressed && RGFW_event_obj.button.value == RGFW_space)    
             {
                 /// stop and start timer proc
@@ -148,6 +156,15 @@ int main()
                     saved_time = output_time;
                 }
             }
+//          Ctrl+R
+            else if (RGFW_event_obj.type == RGFW_keyPressed &&  RGFW_event_obj.button.value == RGFW_r)
+            {
+                saved_time = 0;
+                std::printf("now i press Ctrl left and R");
+                last_time_time = 0;
+                output_time = 0;
+            }
+
         }
 
     /// graphic interface    
@@ -156,8 +173,10 @@ int main()
 
         if(order_time_stop)
         {
-            saved_time = output_time ;
             
+            saved_time = output_time;
+            output_time += last_time_time;
+                        
             t_str = t_str_fucn(output_time);
             glyph_renderer_draw_text(&renderer, t_str.c_str(),230.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_NONE);
             
@@ -167,8 +186,8 @@ int main()
         {    
             auto now_time = high_resolution_clock::now();
             output_time = duration<double>(now_time - start_time).count();
-            output_time+=saved_time ;
-            
+            output_time+= saved_time;
+            output_time+= last_time_time;
         
             t_str = t_str_fucn(output_time);
        
@@ -179,5 +198,7 @@ int main()
 
     }
     RGFW_window_close(RGFW_window_obj);
+
     return 0;
+
 }
