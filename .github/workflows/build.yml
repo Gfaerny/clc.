@@ -1,0 +1,22 @@
+name: debian_build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: aptgetready
+      run: sudo apt update && sudo apt install -y libx11-xcb-dev libxcb-composite0 libxcb-composite0-dev libx11-dev libxcursor-dev libxrandr-dev libgl1-mesa-dev libxfixes-dev libxext-dev libxcb-cursor-dev libxi-dev xorg-dev
+    - name: installdep
+      run: ./install_dependency.sh 
+    - name: make
+      run: make
+    
