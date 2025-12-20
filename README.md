@@ -4,7 +4,7 @@ Super simple timer for debian.
 
 you can find how to report bug for clc [here](https://github.com/Gfaerny/clc./blob/main/bug_report.md)
 
-
+![build](https://github.com/<USER>/<REPO>/actions/workflows/build.yml/badge.svg)
 # how to build
 
 - install dependency
