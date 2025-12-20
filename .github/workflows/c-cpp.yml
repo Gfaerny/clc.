@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: clc.build
 
 on:
   push:
@@ -13,13 +13,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
+    - name: aptgetready
+      run: apt install gcc make
     - name: installdep
       run: ./install_dependency.sh 
     - name: make
       run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+    

@@ -1,2 +1,4 @@
 ُُadd clock panel
 ٰ└── des : making another panel for clc. that show current time
+
+ remove bug that when clc automaticlly start recording time
