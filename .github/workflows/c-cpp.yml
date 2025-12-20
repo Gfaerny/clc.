@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: aptgetready
-      run: sudo apt install gcc make
+      run: sudo apt install gcc make libx11-dev libx11-xcb-dev
     - name: installdep
       run: ./install_dependency.sh 
     - name: make
