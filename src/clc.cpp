@@ -8,7 +8,7 @@
 #include <cmath>
 #include <sys/types.h>
 #include <string>
-#include <print>
+#include <printf.h>
 
 #define GLYPH_MINIMAL
 #define RGFW_DEBUG
