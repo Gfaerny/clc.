@@ -1,25 +1,6 @@
-#include <cstdint>
-#include <cstdlib>
-#include <ctime>
-#include <iostream>
-#include <chrono>
-#include <fstream>
-#include <filesystem>
-#include <cmath>
-#include <sys/types.h>
-#include <string>
-#include <printf.h>
-
-#define GLYPH_MINIMAL
-#define RGFW_DEBUG
-#define RGFW_IMPLEMENTATION
-#define RGFW_OPENGL
-extern "C" 
-{
-#include "../include/RGFW/RGFW.h"
-#include "../include/glyph/glyph.h"
-};
+#include "../include/clc.h"
 #include <GL/gl.h>
+#include <chrono>
 
 using namespace std;
 using namespace chrono;
@@ -29,6 +10,12 @@ double saved_time = 0 , output_time = 0;
 fs::path home_dir = getenv("HOME");
 fs::path saved_time_file_path = home_dir / ".clc" / "lt";
 
+
+void draw_close_button()
+{
+    glLineWidth(10);
+    
+}
 
 static std::string t_str_fucn (double &time)
 {
@@ -76,8 +63,7 @@ void save_time()
     }
     else
     {
-        cerr << total_ms << saved_time_file_path<< "\n";
-        cerr << "clc. massage [error] : can't store last data time" << endl;
+        printf("clc. massage [error] : can't store last data time\n");
     }
 
     return ;
@@ -107,7 +93,7 @@ int main()
 {
     std::atexit(save_time);
     
-    double additional_time , last_time = 0;
+    double additional_time = 0 , last_time = 0;
     bool order_time_stop = true;
 
     double last_time_time = load_time();
@@ -139,7 +125,6 @@ int main()
 
         while(RGFW_window_checkEvent(RGFW_window_obj, &RGFW_event_obj))
         {
-
 //          space
             if(RGFW_event_obj.type == RGFW_keyPressed && RGFW_event_obj.button.value == RGFW_space)    
             {
@@ -167,16 +152,19 @@ int main()
 
         }
 
-    /// graphic interface    
+//      graphic interface    
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-
         if(order_time_stop)
         {
             
             saved_time = output_time;
-            output_time += last_time_time;
-                        
+            output_time += duration<double>(last_time_time).count();
+
+
+///
+//
+            std::cout << "output time " << output_time << "\n.last time time " << last_time_time << "saved time" << saved_time << '\n'; 
             t_str = t_str_fucn(output_time);
             glyph_renderer_draw_text(&renderer, t_str.c_str(),230.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_NONE);
             
@@ -187,14 +175,16 @@ int main()
             auto now_time = high_resolution_clock::now();
             output_time = duration<double>(now_time - start_time).count();
             output_time+= saved_time;
-            output_time+= last_time_time;
-        
+            output_time += duration<double>(last_time_time).count();
+                        
             t_str = t_str_fucn(output_time);
        
             glyph_renderer_draw_text(&renderer, t_str.c_str(),230.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_NONE);
         }
         glyph_renderer_draw_text(&renderer,"clc.", 10, 100, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_NONE);
         RGFW_window_swapBuffers_OpenGL(RGFW_window_obj);
+
+        drawCircle(200,200,10, 10);
 
     }
     RGFW_window_close(RGFW_window_obj);
