@@ -18,8 +18,8 @@
 #define RGFW_OPENGL
 extern "C" 
 {
-#include "../include/RGFW/RGFW.h"
-#include "../include/glyph/glyph.h"
+#include "./RGFW/RGFW.h"
+#include "./glyph/glyph.h"
 };
 #include <GL/gl.h>
 
