@@ -6,7 +6,7 @@ using namespace std;
 using namespace chrono;
 namespace fs = std::filesystem;
 
-double saved_time = 0 , output_time = 0;
+double saved_time {} , output_time {} , rus_time {};
 fs::path home_dir = getenv("HOME");
 fs::path saved_time_file_path = home_dir / ".clc" / "lt";
 
@@ -49,7 +49,7 @@ static std::string t_str_fucn (double &time)
 
 void save_time()
 {
-    double total_ms = output_time;
+    double total_ms = saved_time;
     if (!fs::exists(saved_time_file_path.parent_path()))
     {
         fs::create_directory(saved_time_file_path.parent_path());
@@ -97,7 +97,7 @@ int main()
     bool order_time_stop = true;
 
     double last_time_time = load_time();
-    std::printf("loaded time = %f",saved_time);
+    std::printf("loaded time = %f",load_time());
                        
     uint8_t min = 0 , hour = 0 , sec = 0;
 
@@ -117,7 +117,7 @@ int main()
     std::string t_str = "";
     std::chrono::time_point<std::chrono::high_resolution_clock> last_time_before_stop;
     std::chrono::time_point<high_resolution_clock> start_time; 
-    
+    saved_time += last_time_time;
     while(RGFW_window_shouldClose(RGFW_window_obj) == false)
     {
         auto time_point_t1 = high_resolution_clock::now();
@@ -133,19 +133,17 @@ int main()
                 {
                     order_time_stop = false;
                     start_time = high_resolution_clock::now();
-                    saved_time = output_time;
                 }
                 else
                 {
                     order_time_stop = true;
-                    saved_time = output_time;
+                    saved_time += output_time;
                 }
             }
 //          r
             if (RGFW_event_obj.type == RGFW_keyPressed &&  RGFW_event_obj.button.value == RGFW_r)
             {
                 saved_time = 0;
-                std::printf("now i press Ctrl left and R");
                 last_time_time = 0;
                 output_time = 0;
             }
@@ -155,32 +153,26 @@ int main()
 //      graphic interface    
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
         if(order_time_stop)
         {
-            
-            saved_time = output_time;
-            output_time += duration<double>(last_time_time).count();
-
-
-///
-//
-            std::cout << "output time " << output_time << "\n.last time time " << last_time_time << "saved time" << saved_time << '\n'; 
-            t_str = t_str_fucn(output_time);
+            rus_time = saved_time;
+            t_str = t_str_fucn(rus_time);
+                               
             glyph_renderer_draw_text(&renderer, t_str.c_str(),230.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_NONE);
-            
-            last_time_before_stop = high_resolution_clock::now();
         }
-        else
+        else if (!order_time_stop)
         {    
             auto now_time = high_resolution_clock::now();
             output_time = duration<double>(now_time - start_time).count();
-            output_time+= saved_time;
-            output_time += duration<double>(last_time_time).count();
-                        
-            t_str = t_str_fucn(output_time);
+
+            rus_time = output_time + saved_time;
+            t_str = t_str_fucn(rus_time);
        
             glyph_renderer_draw_text(&renderer, t_str.c_str(),230.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_NONE);
         }
+// TEST LINE
+//      std::cout << "last_time_time :" << last_time_time << '\n' << "output time :"<< output_time << '\n' << "saved_time :" << saved_time << '\n' << "__________\n";
         glyph_renderer_draw_text(&renderer,"clc.", 10, 100, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_NONE);
         RGFW_window_swapBuffers_OpenGL(RGFW_window_obj);
 

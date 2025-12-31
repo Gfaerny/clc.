@@ -16,16 +16,16 @@ you can find how to report bug for clc [here](https://github.com/Gfaerny/clc./bl
       -RGFW windowing framwork
       -glyph for rendering text with OpenGL
 - then run this to build
-...
+```bash
 make
-#and the use clc
-./clc
-...
+chmod +x install_dependency.sh
+./install_dependency.sh
+```
 
 # how to use
 - keybind 
   - space : start/stop timer
-  - r : restart timer
+  - r : restart record
 
 # at end
 thanks for you attention.this project is super experimental so please feel free to report any typo , bug ... or any problem  that you see
