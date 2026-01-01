@@ -108,7 +108,7 @@ int main()
     glyph_gl_set_opengl_version(3, 3);
     RGFW_window_show(RGFW_window_obj);
     RGFW_window_setExitKey(RGFW_window_obj,RGFW_escape);
-    glyph_renderer_t renderer = glyph_renderer_create("font.ttf", 135.0f,NULL, GLYPH_UTF8,NULL, 0);
+    glyph_renderer_t renderer = glyph_renderer_create("font.ttf", 135.0f,NULL, GLYPH_ENCODING_UTF8,NULL, 0);
     glyph_renderer_set_projection(&renderer, 800, 600);
     
     glEnable(GL_BLEND);
@@ -159,7 +159,7 @@ int main()
             rus_time = saved_time;
             t_str = t_str_fucn(rus_time);
                                
-            glyph_renderer_draw_text(&renderer, t_str.c_str(),230.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_NONE);
+            glyph_renderer_draw_text(&renderer, t_str.c_str(),230.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_EFFECT_NONE);
         }
         else if (!order_time_stop)
         {    
@@ -169,11 +169,11 @@ int main()
             rus_time = output_time + saved_time;
             t_str = t_str_fucn(rus_time);
        
-            glyph_renderer_draw_text(&renderer, t_str.c_str(),230.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_NONE);
+            glyph_renderer_draw_text(&renderer, t_str.c_str(),230.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_EFFECT_NONE);
         }
 // TEST LINE
 //      std::cout << "last_time_time :" << last_time_time << '\n' << "output time :"<< output_time << '\n' << "saved_time :" << saved_time << '\n' << "__________\n";
-        glyph_renderer_draw_text(&renderer,"clc.", 10, 100, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_NONE);
+        glyph_renderer_draw_text(&renderer,"clc.", 10, 100, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_EFFECT_NONE);
         RGFW_window_swapBuffers_OpenGL(RGFW_window_obj);
 
         drawCircle(200,200,10, 10);
