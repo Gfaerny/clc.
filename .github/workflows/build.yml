@@ -18,7 +18,7 @@ jobs:
     - name: installdep
       run: ./install_dependency.sh 
     - name: cmake
-      run: camke.
+      run: cmake .
     - name: make
       run: make
     
