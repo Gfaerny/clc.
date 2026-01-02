@@ -7,26 +7,25 @@ you can find how to report bug for clc [here](https://github.com/Gfaerny/clc./bl
 ![build](https://github.com/Gfaerny/clc./actions/workflows/build.yml/badge.svg)
 # how to build
 
-- install dependency
-  - here list of dep for linux system
-    -make
-    -gcc
-  - then use "install_dependency.sh" script
-    -this script clone
-      -RGFW windowing framwork
-      -glyph for rendering text with OpenGL
-- then run this to build
+clc debian package is in developing process
+so before build we have to install all clc build dependency
+
 ```bash
-make
+# installing all library and package that clc needs
 chmod +x install_dependency.sh
 ./install_dependency.sh
+
+# build
+cmake .
+make
+
 ```
 
 # how to use
 - keybind 
   - space : start/stop timer
   - r : restart record
-
+  - q : quit app
 # at end
 thanks for you attention.this project is super experimental so please feel free to report any typo , bug ... or any problem  that you see
 

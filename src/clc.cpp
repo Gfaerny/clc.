@@ -1,6 +1,8 @@
 #include "../include/clc.h"
 #include <GL/gl.h>
 #include <chrono>
+#include <cstdlib>
+#include <iostream>
 
 namespace fs = std::filesystem;
 
@@ -92,7 +94,6 @@ int main()
 {
     std::atexit(save_time);
     
-    double additional_time = 0 , last_time = 0;
     bool order_time_stop = true;
 
     double last_time_time = load_time();
@@ -100,7 +101,7 @@ int main()
                        
     uint8_t min = 0 , hour = 0 , sec = 0;
 
-    RGFW_window* RGFW_window_obj = RGFW_createWindow("clc.", 0, 0, 500, 300, RGFW_windowOpenGL | RGFW_windowNoBorder | RGFW_windowNoResize);
+    RGFW_window* RGFW_window_obj = RGFW_createWindow("clc.", 0, 0, 500, 300, RGFW_windowOpenGL | RGFW_windowNoBorder | RGFW_windowNoResize | RGFW_windowCenter);
 
     RGFW_window_makeCurrentContext_OpenGL(RGFW_window_obj);
     
@@ -113,12 +114,10 @@ int main()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    std::chrono::time_point<std::chrono::high_resolution_clock> last_time_before_stop;
     std::chrono::time_point<std::chrono::high_resolution_clock> start_time; 
     saved_time += last_time_time;
     while(RGFW_window_shouldClose(RGFW_window_obj) == false)
     {
-        auto time_point_t1 = std::chrono::high_resolution_clock::now();
         RGFW_event RGFW_event_obj;
 
         while(RGFW_window_checkEvent(RGFW_window_obj, &RGFW_event_obj))
@@ -144,6 +143,12 @@ int main()
                 saved_time = 0;
                 last_time_time = 0;
                 output_time = 0;
+            }
+            if (RGFW_event_obj.type == RGFW_keyPressed &&  RGFW_event_obj.button.value == RGFW_q)
+            {
+                std::cout << "this fucking key\n" ; 
+                save_time();
+                return 0;
             }
 
         }
