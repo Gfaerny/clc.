@@ -2,14 +2,13 @@
 #include <GL/gl.h>
 #include <chrono>
 
-using namespace std;
-using namespace chrono;
 namespace fs = std::filesystem;
 
 double saved_time {} , output_time {} , rus_time {};
 fs::path home_dir = getenv("HOME");
 fs::path saved_time_file_path = home_dir / ".clc" / "lt";
-
+const char font_path[] {"/usr/share/clc/font.ttf"};
+std::string t_str = "";
 
 void draw_close_button()
 {
@@ -54,7 +53,7 @@ void save_time()
     {
         fs::create_directory(saved_time_file_path.parent_path());
     }
-    ofstream outFile(saved_time_file_path);
+    std::ofstream outFile(saved_time_file_path);
     if (outFile.is_open())
     {
         outFile << total_ms;
@@ -72,7 +71,7 @@ void save_time()
 
 double load_time()
 {
-    ifstream inFile("/home/gfaerny/.clc/lt");
+    std::ifstream inFile(saved_time_file_path);
     double previous_time = 0;
     if(inFile.is_open())
     {
@@ -108,19 +107,18 @@ int main()
     glyph_gl_set_opengl_version(3, 3);
     RGFW_window_show(RGFW_window_obj);
     RGFW_window_setExitKey(RGFW_window_obj,RGFW_escape);
-    glyph_renderer_t renderer = glyph_renderer_create("font.ttf", 135.0f,NULL, GLYPH_ENCODING_UTF8,NULL, 0);
+    glyph_renderer_t renderer = glyph_renderer_create(font_path, 135.0f,NULL, GLYPH_ENCODING_UTF8,NULL, 0);
     glyph_renderer_set_projection(&renderer, 800, 600);
     
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    std::string t_str = "";
     std::chrono::time_point<std::chrono::high_resolution_clock> last_time_before_stop;
-    std::chrono::time_point<high_resolution_clock> start_time; 
+    std::chrono::time_point<std::chrono::high_resolution_clock> start_time; 
     saved_time += last_time_time;
     while(RGFW_window_shouldClose(RGFW_window_obj) == false)
     {
-        auto time_point_t1 = high_resolution_clock::now();
+        auto time_point_t1 = std::chrono::high_resolution_clock::now();
         RGFW_event RGFW_event_obj;
 
         while(RGFW_window_checkEvent(RGFW_window_obj, &RGFW_event_obj))
@@ -132,7 +130,7 @@ int main()
                 if(order_time_stop == true)
                 {
                     order_time_stop = false;
-                    start_time = high_resolution_clock::now();
+                    start_time = std::chrono::high_resolution_clock::now();
                 }
                 else
                 {
@@ -163,8 +161,8 @@ int main()
         }
         else if (!order_time_stop)
         {    
-            auto now_time = high_resolution_clock::now();
-            output_time = duration<double>(now_time - start_time).count();
+            auto now_time = std::chrono::high_resolution_clock::now();
+            output_time = std::chrono::duration<double>(now_time - start_time).count();
 
             rus_time = output_time + saved_time;
             t_str = t_str_fucn(rus_time);

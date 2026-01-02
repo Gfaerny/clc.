@@ -1,14 +1,11 @@
 clc
-*.deb
-src/clc
 build/*
 *.o
 *.json
-font/arial/*
-font/
-test/*
-test/
 
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
 ####
 # i use some true type file for test clc bin with it that's all
-*.ttf
