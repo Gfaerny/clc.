@@ -43,7 +43,7 @@ static std::string t_str_fucn (double &time)
         double sec = std::fmod(time , 60);        
         function_result +=std::to_string(sec);
 
-        function_result.erase(6);    
+        function_result.erase(8);    
     return function_result;
 }
 
@@ -162,7 +162,7 @@ int main()
             rus_time = saved_time;
             t_str = t_str_fucn(rus_time);
                                
-            glyph_renderer_draw_text(&renderer, t_str.c_str(),230.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_EFFECT_NONE);
+            glyph_renderer_draw_text(&renderer, t_str.c_str(),170.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_EFFECT_NONE);
         }
         else if (!order_time_stop)
         {    
@@ -172,7 +172,7 @@ int main()
             rus_time = output_time + saved_time;
             t_str = t_str_fucn(rus_time);
        
-            glyph_renderer_draw_text(&renderer, t_str.c_str(),230.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_EFFECT_NONE);
+            glyph_renderer_draw_text(&renderer, t_str.c_str(),170.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_EFFECT_NONE);
         }
 // TEST LINE
 //      std::cout << "last_time_time :" << last_time_time << '\n' << "output time :"<< output_time << '\n' << "saved_time :" << saved_time << '\n' << "__________\n";
