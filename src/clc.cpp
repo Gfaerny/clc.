@@ -1,27 +1,19 @@
 #include "../include/clc.h"
-#include <GL/gl.h>
-#include <chrono>
-#include <cstdlib>
-#include <iostream>
 
 namespace fs = std::filesystem;
 
 double saved_time {} , output_time {} , rus_time {};
-fs::path home_dir = getenv("HOME");
-fs::path saved_time_file_path = home_dir / ".clc" / "lt";
+const fs::path home_dir = getenv("HOME");
+const fs::path saved_time_file_path = home_dir / ".clc" / "lt";
 const char font_path[] {"/usr/share/clc/font.ttf"};
+
 std::string t_str = "";
 
-void draw_close_button()
-{
-    glLineWidth(10);
-    
-}
 
-static std::string t_str_fucn (double &time)
+std::string t_str_fucn (double &time)
 {
     std::string function_result = "";    
-
+    
     if(time >= 3600)
     {
         int hour = time / 3600;
@@ -70,7 +62,6 @@ void save_time()
     return ;
 }
 
-
 double load_time()
 {
     std::ifstream inFile(saved_time_file_path);
@@ -97,12 +88,9 @@ int main()
     bool order_time_stop = true;
 
     double last_time_time = load_time();
-    std::printf("loaded time = %f",load_time());
-                       
-    uint8_t min = 0 , hour = 0 , sec = 0;
+    std::printf("clc. massage [alert]  : loaded time = %f",load_time());
 
     RGFW_window* RGFW_window_obj = RGFW_createWindow("clc.", 0, 0, 500, 300, RGFW_windowOpenGL | RGFW_windowNoBorder | RGFW_windowNoResize | RGFW_windowCenter);
-
     RGFW_window_makeCurrentContext_OpenGL(RGFW_window_obj);
     
     glyph_gl_set_opengl_version(3, 3);
@@ -144,9 +132,9 @@ int main()
                 last_time_time = 0;
                 output_time = 0;
             }
+//          q
             if (RGFW_event_obj.type == RGFW_keyPressed &&  RGFW_event_obj.button.value == RGFW_q)
             {
-                std::cout << "this fucking key\n" ; 
                 save_time();
                 return 0;
             }
@@ -174,8 +162,7 @@ int main()
        
             glyph_renderer_draw_text(&renderer, t_str.c_str(),170.0f, 350.0f, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_EFFECT_NONE);
         }
-// TEST LINE
-//      std::cout << "last_time_time :" << last_time_time << '\n' << "output time :"<< output_time << '\n' << "saved_time :" << saved_time << '\n' << "__________\n";
+
         glyph_renderer_draw_text(&renderer,"clc.", 10, 100, 1.0f, 1.0f, 1.0f, 1.0f, GLYPH_EFFECT_NONE);
         RGFW_window_swapBuffers_OpenGL(RGFW_window_obj);
 
@@ -185,5 +172,4 @@ int main()
     RGFW_window_close(RGFW_window_obj);
 
     return 0;
-
 }
