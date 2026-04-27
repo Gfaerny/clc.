@@ -2,13 +2,12 @@
 
 namespace fs = std::filesystem;
 
-double saved_time {} , output_time {} , rus_time {};
+double saved_time {0} , output_time {0} , rus_time {0};
 const fs::path home_dir = getenv("HOME");
 const fs::path saved_time_file_path = home_dir / ".clc" / "lt";
 const char font_path[] {"/usr/share/clc/font.ttf"};
 
 std::string t_str = "";
-
 
 std::string t_str_fucn (double &time)
 {
