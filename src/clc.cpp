@@ -94,7 +94,7 @@ int main()
     
     glyph_gl_set_opengl_version(3, 3);
     RGFW_window_show(RGFW_window_obj);
-    RGFW_window_setExitKey(RGFW_window_obj,RGFW_escape);
+    RGFW_window_setExitKey(RGFW_window_obj,RGFW_keyEscape);
     glyph_renderer_t renderer = glyph_renderer_create(font_path, 135.0f,NULL, GLYPH_ENCODING_UTF8,NULL, 0);
     glyph_renderer_set_projection(&renderer, 800, 600);
     
@@ -110,7 +110,7 @@ int main()
         while(RGFW_window_checkEvent(RGFW_window_obj, &RGFW_event_obj))
         {
 //          space
-            if(RGFW_event_obj.type == RGFW_keyPressed && RGFW_event_obj.button.value == RGFW_space)    
+            if(RGFW_event_obj.type == RGFW_keyPressed && RGFW_event_obj.button.value == RGFW_keySpace)    
             {
                 /// stop and start timer proc
                 if(order_time_stop == true)
@@ -125,14 +125,14 @@ int main()
                 }
             }
 //          r
-            if (RGFW_event_obj.type == RGFW_keyPressed &&  RGFW_event_obj.button.value == RGFW_r)
+            if (RGFW_event_obj.type == RGFW_keyPressed &&  RGFW_event_obj.button.value == RGFW_keyR)
             {
                 saved_time = 0;
                 last_time_time = 0;
                 output_time = 0;
             }
 //          q
-            if (RGFW_event_obj.type == RGFW_keyPressed &&  RGFW_event_obj.button.value == RGFW_q)
+            if (RGFW_event_obj.type == RGFW_keyPressed &&  RGFW_event_obj.button.value == RGFW_keyQ)
             {
                 save_time();
                 return 0;
