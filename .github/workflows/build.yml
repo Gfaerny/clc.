@@ -1,4 +1,4 @@
-name: debian_build
+name: Debian_Linux_Build
 
 on:
   push:
