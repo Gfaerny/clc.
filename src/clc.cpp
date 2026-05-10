@@ -34,7 +34,7 @@ std::string t_str_fucn(double &time)
     double sec = std::fmod(time, 60);
     function_result += std::to_string(sec);
 
-    function_result.erase(8);
+    function_result.erase(6);
     return function_result;
 }
 
