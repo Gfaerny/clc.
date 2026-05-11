@@ -7,25 +7,24 @@ you can find how to report bug for clc [here](https://github.com/Gfaerny/clc./bl
 ![build](https://github.com/Gfaerny/clc./actions/workflows/build.yml/badge.svg)
 # how to build
 
-clc debian package is in under proocess
+clc debian package is now under progress
 so before build we have to install all clc build dependency
 
 ```bash
-# installing all libraries and package that clc needs
+# Installing all libraries and package that clc needs
 chmod +x install_dependency.sh
 ./install_dependency.sh
 
-# build
+# Build
 cmake .
 make
-
 ```
 
-# how to use
+# How to use
 - keybind 
-  - space : start/stop timer
-  - r : restart record
-  - q : quit app (if you use another method for closing clc it's possible clc wouldn't save time)
+  - space : Start/Stop timer
+  - R : Restart record
+  - Q : Quit app 
   
-# at end
-thanks for you attention. this project is super experimental so please feel free to report any typo , bug ... or any problem that you see
+# At end
+This project is super experimental so please feel free to report any typo , bug ... or any problem that you see

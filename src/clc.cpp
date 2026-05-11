@@ -169,5 +169,7 @@ int main()
     }
     RGFW_window_close(RGFW_window_obj);
 
+    save_time();
+
     return 0;
 }
