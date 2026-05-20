@@ -73,9 +73,16 @@ double load_time()
     }
     else
     {
-        printf("clc. massage [error] : failed to open ~/.clc/lt file.\nclc could't load your last time_point\n");
+        printf("clc. massage [error] : failed to open ~/.clc/lt file.\nclc could't "
+               "load your last time_point\n");
         return 0;
     }
+}
+
+void clc_exit(RGFW_window *window_obj)
+{
+    save_time();
+    RGFW_window_close(window_obj);
 }
 
 int main()
@@ -167,9 +174,7 @@ int main()
 
         drawCircle(200, 200, 10, 10);
     }
-    RGFW_window_close(RGFW_window_obj);
-
-    save_time();
+    clc_exit(RGFW_window_obj);
 
     return 0;
 }
