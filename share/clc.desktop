@@ -1,0 +1,6 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=clc
+Comment=Super simple time counter
+Exec=/usr/bin/clc
+Type=Application

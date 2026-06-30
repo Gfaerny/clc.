@@ -1,4 +1,4 @@
-name: Debian_Linux_Build
+name: Ubuntu Build
 
 on:
   push:

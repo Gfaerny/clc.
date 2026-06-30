@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(clc. VERSION 1.0
+project(clc VERSION 1.0
                   DESCRIPTION "super simple stopwatch for debian"
                   LANGUAGES CXX)
 
@@ -16,3 +16,9 @@ target_link_libraries(clc PRIVATE
   Xrandr
 )
 target_include_directories(clc PRIVATE ${XRANDR_INCLUDE_DIRS})
+
+install(TARGETS clc
+        DESTINATION bin)
+
+install(FILES share/clc.desktop
+        DESTINATION share/applications)

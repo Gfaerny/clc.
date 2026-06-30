@@ -50,11 +50,11 @@ void save_time()
     {
         outFile << total_ms;
         outFile.close();
-        printf("clc. massage [alert] : last time got saved\n");
+        printf("clc massage [alert] : last time got saved\n");
     }
     else
     {
-        printf("clc. massage [error] : can't store last data time\n");
+        printf("clc massage [error] : can't store last data time\n");
     }
 
     return;
@@ -69,11 +69,11 @@ double load_time()
         inFile >> previous_time;
         inFile.close();
         return previous_time;
-        printf("clc. massage [alert] : last saved time loaded succesfully%f\n", previous_time);
+        printf("clc massage [alert] : last saved time loaded succesfully%f\n", previous_time);
     }
     else
     {
-        printf("clc. massage [error] : failed to open ~/.clc/lt file.\nclc could't "
+        printf("clc massage [error] : failed to open ~/.clc/lt file.\nclc could't "
                "load your last time_point\n");
         return 0;
     }
@@ -92,7 +92,7 @@ int main()
     bool order_time_stop = true;
 
     double last_time_time = load_time();
-    std::printf("clc. massage [alert]  : loaded time = %f\n", load_time());
+    std::printf("clc massage [alert]  : loaded time = %f\n", load_time());
 
     RGFW_window *RGFW_window_obj = RGFW_createWindow(
         "clc.", 0, 0, 500, 300, RGFW_windowOpenGL | RGFW_windowNoBorder | RGFW_windowNoResize | RGFW_windowCenter);
